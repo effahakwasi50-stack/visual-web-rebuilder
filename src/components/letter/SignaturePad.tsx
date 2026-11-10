@@ -16,7 +16,7 @@ export function SignaturePad({ color, onChange, clearKey }: { color: string; onC
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clearKey]);
 
-  const pos = (e: React.PointerEvent) => { const r = ref.current!.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  const pos = (e: React.PointerEvent) => { const r = ref.current!.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top] as const; };
   const down = (e: React.PointerEvent) => {
     ref.current!.setPointerCapture(e.pointerId); drawing.current = true;
     const ctx = ref.current!.getContext("2d")!; const [x, y] = pos(e);

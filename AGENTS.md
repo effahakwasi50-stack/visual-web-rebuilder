@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Letter PDF is captured from the #letter A4 element with html2canvas-pro + jsPDF (html2canvas cannot parse oklch); print CSS isolates #letter.

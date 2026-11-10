@@ -1,14 +1,16 @@
 import { forwardRef } from "react";
-import { Crest } from "./Crest";
+import logoAsset from "@/assets/republic-hall-logo.png.asset.json";
 
-export type LetterData = { name: string; dept: string; phone: string; email: string; date: string; logo: string | null; signature: string | null };
+export type LetterData = { name: string; dept: string; phone: string; email: string; date: string; signature: string | null };
 
 const ph = (v: string, p: string) => v.trim() || <span className="text-muted-foreground">{p}</span>;
 
 export const Letter = forwardRef<HTMLDivElement, { d: LetterData }>(({ d }, ref) => (
   <div id="letter" ref={ref} className="flex flex-col bg-paper font-serif text-foreground" style={{ width: "210mm", height: "297mm", padding: "20mm 22mm" }}>
     <header className="text-center">
-      <div className="mb-3 flex justify-center">{d.logo ? <img src={d.logo} alt="Hall logo" className="h-20 w-auto object-contain" /> : <Crest />}</div>
+      <div className="mb-3 flex justify-center">
+        <img src={logoAsset.url} alt="Republic Hall, KNUST crest" className="h-24 w-auto object-contain" />
+      </div>
       <p className="text-[13pt] font-bold tracking-wide">KWAME NKRUMAH UNIVERSITY OF SCIENCE AND TECHNOLOGY</p>
       <p className="mt-1 text-[11pt] font-bold tracking-wider text-primary">OFFICE OF THE HALL COUNCIL — REPUBLIC HALL</p>
       <div className="rule-crest mt-4" />

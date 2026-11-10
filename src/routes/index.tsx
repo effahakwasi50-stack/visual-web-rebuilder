@@ -5,6 +5,7 @@ import { Download, Loader2, Printer, Upload, Eraser, CheckCircle2 } from "lucide
 import { Letter } from "@/components/letter/Letter";
 import { SignaturePad } from "@/components/letter/SignaturePad";
 import { pdfFileName, formatLetterDate } from "@/lib/letter";
+import logoAsset from "@/assets/republic-hall-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,7 +26,7 @@ const field = "w-full rounded-md border border-input bg-card px-3 py-2 text-sm o
 
 function Index() {
   const [name, setName] = useState(""); const [dept, setDept] = useState(""); const [phone, setPhone] = useState(""); const [email, setEmail] = useState("");
-  const [date, setDate] = useState(""); const [logo, setLogo] = useState<string | null>(null);
+  const [date, setDate] = useState("");
   const [tab, setTab] = useState<"draw" | "upload">("draw"); const [ink, setInk] = useState<"--ink-blue" | "--ink-black">("--ink-blue");
   const [drawn, setDrawn] = useState<string | null>(null); const [uploaded, setUploaded] = useState<string | null>(null); const [clearKey, setClearKey] = useState(0);
   const [busy, setBusy] = useState(false); const [scale, setScale] = useState(1);
@@ -39,7 +40,7 @@ function Index() {
   const signature = tab === "draw" ? drawn : uploaded;
   const done = [name, dept, phone].filter((v) => v.trim()).length + (signature ? 1 : 0);
   const ready = done === 4;
-  const d = { name, dept, phone, email, date: date ? formatLetterDate(date) : "", logo, signature };
+  const d = { name, dept, phone, email, date: date ? formatLetterDate(date) : "", signature };
 
   async function download() {
     if (!ready || !letterRef.current) return; setBusy(true);
@@ -71,7 +72,10 @@ function Index() {
   return (
     <div className="min-h-screen">
       <header className="bg-crest text-primary-foreground">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-5">
+        <div className="mx-auto flex max-w-7xl items-center gap-4 px-6 py-5">
+          <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-card p-1 shadow-sm">
+            <img src={logoAsset.url} alt="" className="size-full object-contain" />
+          </span>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">Republic Hall · KNUST</p>
             <h1 className="font-serif text-xl font-bold md:text-2xl">Hall Fellow Application Letter</h1>
@@ -96,12 +100,6 @@ function Index() {
               <L label="Application Date"><input type="date" className={field} value={date} onChange={(e) => setDate(e.target.value)} /></L>
             </div>
             <L label="Email (optional)"><input type="email" className={field} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="kmensah@knust.edu.gh" /></L>
-            <L label="Hall Logo / Crest">
-              <div className="flex items-center gap-3">
-                <FileBtn label="Upload Custom Hall Logo" onFile={async (f) => setLogo(await readFile(f))} />
-                {logo && <button className="text-xs text-muted-foreground underline" onClick={() => setLogo(null)}>Use default crest</button>}
-              </div>
-            </L>
             <div>
               <p className="mb-1.5 text-sm font-medium">Electronic Signature *</p>
               <div className="mb-3 grid grid-cols-2 rounded-md bg-muted p-1 text-sm">

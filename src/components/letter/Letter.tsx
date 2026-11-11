@@ -11,7 +11,7 @@ export const Letter = forwardRef<HTMLDivElement, { d: LetterData }>(({ d }, ref)
       <div className="mb-3 flex justify-center">
         <img src={logoAsset.url} alt="Republic Hall, KNUST crest" className="h-24 w-auto object-contain" />
       </div>
-      <p className="text-[13pt] font-bold tracking-wide">KWAME NKRUMAH UNIVERSITY OF SCIENCE AND TECHNOLOGY</p>
+      <p className="text-[13pt] font-bold tracking-wide">Republic hall fellow application portal</p>
       <p className="mt-1 text-[11pt] font-bold tracking-wider text-primary">OFFICE OF THE HALL COUNCIL — REPUBLIC HALL</p>
       <div className="rule-crest mt-4" />
     </header>

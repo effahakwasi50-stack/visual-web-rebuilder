@@ -12,8 +12,8 @@ export const Letter = forwardRef<HTMLDivElement, { d: LetterData }>(({ d }, ref)
       <b>From:</b><p className="break-words">{ph(d.name, "[Full Name & Title]")}<br />{ph(d.dept, "[Department]")}, KNUST</p>
     </section>
     <div className="mt-6 space-y-4 text-[10.5pt] leading-[1.7]">
-      <p>Dear Madam,</p>
-      <p className="font-bold underline underline-offset-4">APPLICATION FOR APPOINTMENT AS HALL FELLOW</p>
+      <p>Dear Hall Master/Warden,</p>
+      <p className="font-bold underline underline-offset-4">APPLICATION FOR FELLOWSHIP OF REPUBLIC HALL, KNUST</p>
       <div className="space-y-4 text-left">
         <p>I write to express my interest in appointment as a Hall Fellow of Republic Hall. I am committed to student mentorship, academic excellence, and the holistic development of students within the university community.</p>
         <p>If appointed, I would support Hall Management in addressing student concerns, upholding disciplinary standards, and fostering a respectful and inclusive residential environment. I would work closely with the Hall Master, Senior Tutor, and student leaders to promote the welfare of residents and uphold the proud traditions and unity of Republic Hall.</p>

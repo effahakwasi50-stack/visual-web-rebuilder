@@ -6,33 +6,38 @@ export type LetterData = { name: string; dept: string; phone: string; email: str
 const ph = (v: string, p: string) => v.trim() || <span className="text-muted-foreground">{p}</span>;
 
 export const Letter = forwardRef<HTMLDivElement, { d: LetterData }>(({ d }, ref) => (
-  <div id="letter" ref={ref} className="flex flex-col bg-paper font-serif text-foreground" style={{ width: "210mm", height: "297mm", padding: "20mm 22mm" }}>
+  <div id="letter" ref={ref} className="flex flex-col bg-paper font-serif text-ink-black" style={{ width: "210mm", height: "297mm", padding: "18mm 22mm" }}>
     <header className="text-center">
       <div className="mb-3 flex justify-center">
         <img src={logoAsset.url} alt="Republic Hall, KNUST crest" className="h-24 w-auto object-contain" />
       </div>
-      <p className="text-[13pt] font-bold tracking-wide">Republic hall fellow application portal</p>
-      <p className="mt-1 text-[11pt] font-bold tracking-wider text-primary">OFFICE OF THE HALL COUNCIL — REPUBLIC HALL</p>
-      <div className="rule-crest mt-4" />
+      <h2 className="text-[12pt] font-bold leading-normal tracking-normal">REPUBLIC HALL FELLOW APPLICATION PORTAL</h2>
+      <p className="mt-2 text-[9.5pt] font-bold leading-normal tracking-normal text-primary">OFFICE OF THE HALL COUNCIL — REPUBLIC HALL</p>
+      <div className="mt-4 border-b-2 border-primary" />
     </header>
-    <section className="mt-8 space-y-1.5 text-[10.5pt] leading-relaxed">
-      <p><b>Date:</b> {d.date}</p>
-      <p><b>To:</b> The Chairman, Hall Council, Republic Hall, KNUST, Kumasi</p>
-      <p><b>From:</b> {ph(d.name, "[Full Name & Title]")}, {ph(d.dept, "[Department]")}</p>
-      <p><b>Subject:</b> <b className="underline">APPLICATION FOR APPOINTMENT AS HALL FELLOW</b></p>
+    <section className="mt-7 grid grid-cols-[48px_minmax(0,1fr)] gap-x-3 gap-y-2 text-[10.5pt] leading-[1.6]">
+      <b>Date:</b><p>{d.date}</p>
+      <b>To:</b><p>The Chairman, Hall Council<br />Republic Hall, KNUST<br />Kumasi</p>
+      <b>From:</b><p className="break-words">{ph(d.name, "[Full Name & Title]")}<br />{ph(d.dept, "[Department]")}, KNUST</p>
     </section>
-    <hr className="my-6 border-border" />
-    <p className="text-justify text-[10.5pt] leading-[1.9]">
-      I write to formally express my strong interest in serving as a Hall Fellow for Republic Hall, bringing a deep commitment to student mentorship, academic excellence, and holistic campus development to the Hall’s administration. Having closely supported student life within the university community, I am well-equipped to mediate student concerns, maintain disciplinary standards, and act as a reliable bridge between Hall Management and residents. If given the opportunity, I will collaborate effectively with the Hall Master, Senior Tutor, and student leaders to uphold the proud traditions and unity of Republic Hall, and I look forward to discussing my suitability in an interview.
-    </p>
-    <div className="mt-10 text-[10.5pt] leading-relaxed">
-      <p className="font-bold">Yours faithfully,</p>
-      <div className="my-2 flex h-[65px] w-[180px] items-end">
-        {d.signature ? <img src={d.signature} alt="Signature" className="max-h-[65px] max-w-[180px] object-contain" /> : <span className="w-full border-b border-dashed border-muted-foreground" />}
+    <div className="mt-6 space-y-4 text-[10.5pt] leading-[1.7]">
+      <p>Dear Chairman,</p>
+      <p className="font-bold underline underline-offset-4">APPLICATION FOR APPOINTMENT AS HALL FELLOW</p>
+      <div className="space-y-4 text-justify">
+        <p>I write to express my interest in appointment as a Hall Fellow of Republic Hall. I am committed to student mentorship, academic excellence, and the holistic development of students within the university community.</p>
+        <p>If appointed, I would support Hall Management in addressing student concerns, upholding disciplinary standards, and fostering a respectful and inclusive residential environment. I would work closely with the Hall Master, Senior Tutor, and student leaders to promote the welfare of residents and uphold the proud traditions and unity of Republic Hall.</p>
+        <p>I would welcome the opportunity to discuss my suitability for this role in an interview. Thank you for considering my application.</p>
       </div>
-      <p className="font-bold">{ph(d.name, "[Full Name & Title]")}</p>
-      <p>{ph(d.dept, "[Department]")}, KNUST</p>
-      <p>Contact: {ph(d.phone, "[Phone Number]")}{d.email.trim() && ` / ${d.email.trim()}`}</p>
+    </div>
+    <div className="mt-6 text-[10.5pt] leading-[1.6]">
+      <p>Yours faithfully,</p>
+      <div className="my-2 flex h-[56px] w-[180px] items-center">
+        {d.signature ? <img src={d.signature} alt="Signature" className="max-h-[56px] max-w-[180px] object-contain" /> : <span className="w-full border-b border-dashed border-muted-foreground" />}
+      </div>
+      <p className="break-words font-bold">{ph(d.name, "[Full Name & Title]")}</p>
+      <p className="break-words">{ph(d.dept, "[Department]")}, KNUST</p>
+      <p className="mt-1 break-words text-[9.5pt]">Tel: {ph(d.phone, "[Phone Number]")}</p>
+      {d.email.trim() && <p className="break-words text-[9.5pt]">Email: {d.email.trim()}</p>}
     </div>
   </div>
 ));

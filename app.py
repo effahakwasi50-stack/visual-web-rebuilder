@@ -32,7 +32,7 @@ st.markdown("""
         border: 1px solid #d1d5db;
         box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         font-family: 'Times New Roman', Times, serif;
-        line-height: 1.7;
+        line-height: 1.65;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -50,20 +50,30 @@ col_form, col_preview = st.columns([1, 1.15], gap="large")
 
 with col_form:
     st.subheader("1. Applicant Information")
-    full_name = st.text_input("Full Name & Academic Title/Rank *", placeholder="e.g., Dr. John Mensah, Senior Lecturer")
-    department = st.text_input("Department *", placeholder="e.g., Department of Mechanical Engineering")
+    full_name = st.text_input(
+        "Full Name & Academic Title/Rank *", 
+        placeholder="e.g., Dr. John Mensah, Senior Lecturer"
+    )
+    unit_dept = st.text_input(
+        "College/Faculty/Department/Office/Center/etc. *", 
+        placeholder="e.g., College of Engineering / Dept. of Mechanical Engineering"
+    )
     
     c1, c2 = st.columns(2)
     with c1:
         phone = st.text_input("Phone Number *", placeholder="e.g., 0240000000")
     with c2:
-        email = st.text_input("Email Address (Optional)", placeholder="e.g., jmensah@knust.edu.gh")
+        email = st.text_input("Email Address *", placeholder="e.g., jmensah@knust.edu.gh")
         
     app_date = st.date_input("Application Date", datetime.today())
     formatted_date = app_date.strftime("%B %d, %Y")
 
     st.subheader("2. Electronic Signature")
-    sig_mode = st.radio("Choose Signature Method:", ["Draw Signature on Screen", "Upload Signature Image"], horizontal=True)
+    sig_mode = st.radio(
+        "Choose Signature Method:", 
+        ["Draw Signature on Screen", "Upload Signature Image"], 
+        horizontal=True
+    )
     
     sig_pil_image = None
     if sig_mode == "Draw Signature on Screen":
@@ -87,20 +97,20 @@ with col_form:
             sig_pil_image = Image.open(uploaded_sig).convert("RGBA")
 
 # Display values for live preview
-disp_name = full_name.strip() if full_name.strip() else "[Lecturer's Full Name & Title]"
-disp_dept = department.strip() if department.strip() else "[Department]"
+disp_name = full_name.strip() if full_name.strip() else "[Full Name & Title]"
+disp_unit = unit_dept.strip() if unit_dept.strip() else "[College/Faculty/Department/Office/Center/etc.]"
 disp_phone = phone.strip() if phone.strip() else "[Phone Number]"
-contact_str = f"{disp_phone} / {email.strip()}" if email.strip() else disp_phone
+disp_email = email.strip() if email.strip() else "[Email Address]"
+contact_str = f"{disp_phone} / {disp_email}"
 
+# Concise 5-line paragraph covering Fellowship networking, alumni relations, student welfare, and closing hope
 body_text = (
-    "I write to formally express my strong interest in serving as a Hall Fellow for Republic Hall, "
-    "bringing a deep commitment to student mentorship, academic excellence, and holistic campus "
-    "development to the Hall's administration. Having closely supported student life within the "
-    "university community, I am well-equipped to mediate student concerns, maintain disciplinary "
-    "standards, and act as a reliable bridge between Hall Management and residents. If given the "
-    "opportunity, I will collaborate effectively with the Hall Master, Senior Tutor, and student "
-    "leaders to uphold the proud traditions and unity of Republic Hall, and I look forward to "
-    "discussing my suitability in an interview."
+    "I write to formally express my interest in serving as a Fellow of Republic Hall, KNUST. "
+    "I am eager to actively network and collaborate with other Fellows and past students (alumni) "
+    "to advance the rich traditions, mentorship networks, and continuous development of the Hall. "
+    "Furthermore, I am deeply committed to promoting student welfare, academic excellence, and a "
+    "supportive residential community in close partnership with Hall Management. I thank you for "
+    "your kind consideration and look forward to hearing favorably from you soon."
 )
 
 with col_preview:
@@ -112,10 +122,11 @@ with col_preview:
                 <div style="font-size: 10.5pt; font-weight: bold; color: #0b6623;">OFFICE OF THE HALL COUNCIL — REPUBLIC HALL</div>
             </div>
             <p style="margin: 4px 0;"><strong>Date:</strong> {formatted_date}</p>
-            <p style="margin: 4px 0;"><strong>To:</strong> The Chairman, Hall Council, Republic Hall, KNUST, Kumasi</p>
-            <p style="margin: 4px 0;"><strong>From:</strong> {disp_name}, {disp_dept}</p>
-            <p style="margin: 14px 0; font-weight: bold; text-decoration: underline;">
-                SUBJECT: APPLICATION FOR APPOINTMENT AS HALL FELLOW
+            <p style="margin: 4px 0;"><strong>To:</strong> The Hall Master/Warden, Republic Hall, KNUST, Kumasi</p>
+            <p style="margin: 4px 0;"><strong>From:</strong> {disp_name}, {disp_unit}</p>
+            <p style="margin: 14px 0 8px 0;">Dear Hall Master/Warden,</p>
+            <p style="margin: 8px 0 14px 0; font-weight: bold; text-decoration: underline;">
+                APPLICATION FOR FELLOWSHIP OF REPUBLIC HALL, KNUST
             </p>
             <p style="text-align: justify; margin-bottom: 24px;">{body_text}</p>
             <p style="margin-bottom: 4px;">Yours faithfully,</p>
@@ -123,7 +134,7 @@ with col_preview:
                 {"[ ✓ Electronic Signature Attached ]" if sig_pil_image else "[ Signature Pending ]"}
             </div>
             <p style="margin: 0; font-weight: bold;">{disp_name}</p>
-            <p style="margin: 0;">{disp_dept}, KNUST</p>
+            <p style="margin: 0;">{disp_unit}, KNUST</p>
             <p style="margin: 0; font-size: 10pt; color: #444;">Contact: {contact_str}</p>
         </div>
     """, unsafe_allow_html=True)
@@ -169,18 +180,22 @@ def build_official_pdf():
         pdf.write(7, f"{val}\n")
 
     add_meta_row("Date:", formatted_date)
-    add_meta_row("To:", "The Chairman, Hall Council, Republic Hall, KNUST, Kumasi")
-    add_meta_row("From:", f"{disp_name}, {disp_dept}")
+    add_meta_row("To:", "The Hall Master/Warden, Republic Hall, KNUST, Kumasi")
+    add_meta_row("From:", f"{disp_name}, {disp_unit}")
     pdf.ln(4)
 
-    # 4. Subject
-    pdf.set_font("Times", "BU", 11)
-    pdf.cell(0, 8, "SUBJECT: APPLICATION FOR APPOINTMENT AS HALL FELLOW", ln=True)
-    pdf.ln(4)
-
-    # 5. Body Paragraph (Crisp native vector text, never squishes)
+    # 4. Salutation & Subject
     pdf.set_font("Times", "", 11.5)
-    pdf.multi_cell(0, 7.5, body_text)
+    pdf.cell(0, 7, "Dear Hall Master/Warden,", ln=True)
+    pdf.ln(2)
+    
+    pdf.set_font("Times", "BU", 11)
+    pdf.cell(0, 8, "APPLICATION FOR FELLOWSHIP OF REPUBLIC HALL, KNUST", ln=True)
+    pdf.ln(4)
+
+    # 5. Body Paragraph (5-line concise paragraph)
+    pdf.set_font("Times", "", 11.5)
+    pdf.multi_cell(0, 7.2, body_text)
     pdf.ln(10)
 
     # 6. Sign-off & Signature Image
@@ -201,25 +216,13 @@ def build_official_pdf():
     pdf.set_font("Times", "B", 11.5)
     pdf.cell(0, 6, disp_name, ln=True)
     pdf.set_font("Times", "", 11)
-    pdf.cell(0, 6, f"{disp_dept}, KNUST", ln=True)
+    pdf.cell(0, 6, f"{disp_unit}, KNUST", ln=True)
     pdf.set_font("Times", "", 10.5)
     pdf.cell(0, 6, f"Contact: {contact_str}", ln=True)
 
     return bytes(pdf.output())
 
 st.markdown("---")
-is_complete = bool(full_name.strip() and department.strip() and phone.strip() and sig_pil_image is not None)
-
-if not is_complete:
-    st.info("💡 Complete your Full Name, Department, Phone Number, and Electronic Signature above to unlock the official PDF download.")
-else:
-    pdf_data = build_official_pdf()
-    safe_filename = "".join(c if c.isalnum() else "_" for c in full_name.strip())
-    st.download_button(
-        label="📥 Download Completed Application (Official PDF)",
-        data=pdf_data,
-        file_name=f"Republic_Hall_Fellow_Application_{safe_filename}.pdf",
-        mime="application/pdf",
-        type="primary",
-        use_container_width=True
-    )
+# All fields (including email) and signature are now strictly required
+is_complete = bool(
+    full_name.strip

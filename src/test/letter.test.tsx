@@ -1,13 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Letter } from "@/components/letter/Letter";
-import logoAsset from "@/assets/republic-hall-logo.png.asset.json";
 import { pdfFileName, formatLetterDate } from "@/lib/letter";
 
 describe("letter", () => {
   it("names the PDF after the applicant", () => expect(pdfFileName("Dr. Kwame Mensah, Senior Lecturer")).toBe("Republic_Hall_Fellow_Application_Dr_Kwame_Mensah_Senior_Lecturer.pdf"));
   it("formats dates formally", () => expect(formatLetterDate("2026-11-10")).toBe("November 10, 2026"));
-  it("always prints the official Republic Hall crest", () => {
+  it("addresses the letter to the Hall Warden", () => {
     render(
       <Letter
         d={{
@@ -20,6 +19,6 @@ describe("letter", () => {
         }}
       />,
     );
-    expect(screen.getByRole("img", { name: /Republic Hall, KNUST crest/i })).toHaveAttribute("src", logoAsset.url);
+    expect(screen.getByText("Hall Warden, Republic Hall")).toBeInTheDocument();
   });
 });

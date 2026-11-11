@@ -67,6 +67,7 @@
   --color-ink-black: var(--ink-black);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Merriweather", "Times New Roman", serif;
+  --font-letter: "Times New Roman", Times, "Liberation Serif", serif;
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);

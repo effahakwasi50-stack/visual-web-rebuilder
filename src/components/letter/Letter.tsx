@@ -6,7 +6,7 @@ export type LetterData = { name: string; dept: string; phone: string; email: str
 const ph = (v: string, p: string) => v.trim() || <span className="text-muted-foreground">{p}</span>;
 
 export const Letter = forwardRef<HTMLDivElement, { d: LetterData }>(({ d }, ref) => (
-  <div id="letter" ref={ref} className="flex flex-col bg-paper font-serif text-ink-black" style={{ width: "210mm", height: "297mm", padding: "18mm 22mm" }}>
+  <div id="letter" ref={ref} className="flex flex-col bg-paper font-letter text-ink-black tracking-normal" style={{ width: "210mm", height: "297mm", padding: "18mm 22mm" }}>
     <header className="text-center">
       <div className="mb-3 flex justify-center">
         <img src={logoAsset.url} alt="Republic Hall, KNUST crest" className="h-24 w-auto object-contain" />
@@ -23,7 +23,7 @@ export const Letter = forwardRef<HTMLDivElement, { d: LetterData }>(({ d }, ref)
     <div className="mt-6 space-y-4 text-[10.5pt] leading-[1.7]">
       <p>Dear Chairman,</p>
       <p className="font-bold underline underline-offset-4">APPLICATION FOR APPOINTMENT AS HALL FELLOW</p>
-      <div className="space-y-4 text-justify">
+      <div className="space-y-4 text-left">
         <p>I write to express my interest in appointment as a Hall Fellow of Republic Hall. I am committed to student mentorship, academic excellence, and the holistic development of students within the university community.</p>
         <p>If appointed, I would support Hall Management in addressing student concerns, upholding disciplinary standards, and fostering a respectful and inclusive residential environment. I would work closely with the Hall Master, Senior Tutor, and student leaders to promote the welfare of residents and uphold the proud traditions and unity of Republic Hall.</p>
         <p>I would welcome the opportunity to discuss my suitability for this role in an interview. Thank you for considering my application.</p>

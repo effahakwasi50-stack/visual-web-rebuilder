@@ -34,7 +34,7 @@ function Index() {
 
   useEffect(() => { setDate(new Date().toISOString().slice(0, 10)); }, []);
   useEffect(() => {
-    const el = wrapRef.current!; const ro = new ResizeObserver(() => setScale(Math.min(1, el.clientWidth / 794))); ro.observe(el); return () => ro.disconnect();
+    const el = wrapRef.current; if (!el) return; const ro = new ResizeObserver(() => setScale(Math.min(1, el.clientWidth / 794))); ro.observe(el); return () => ro.disconnect();
   }, []);
 
   const signature = tab === "draw" ? drawn : uploaded;
@@ -46,9 +46,29 @@ function Index() {
     if (!ready || !letterRef.current) return; setBusy(true);
     try {
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([import("html2canvas-pro"), import("jspdf")]);
-      const canvas = await html2canvas(letterRef.current, { scale: 3, useCORS: true, backgroundColor: "#ffffff" });
+      await document.fonts.ready;
+      const canvas = await html2canvas(letterRef.current, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null,
+        width: letterRef.current.offsetWidth,
+        height: letterRef.current.offsetHeight,
+        windowWidth: 1280,
+        onclone: (doc) => {
+          const letter = doc.getElementById("letter");
+          if (!letter) return;
+          // Preview scaling must not affect the text measurements used for PDF capture.
+          let ancestor = letter.parentElement;
+          while (ancestor) {
+            ancestor.style.transform = "none";
+            ancestor.style.overflow = "visible";
+            ancestor = ancestor.parentElement;
+          }
+          letter.style.transform = "none";
+        },
+      });
       const pdf = new jsPDF({ unit: "mm", format: "a4" });
-      pdf.addImage(canvas.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, 210, 297);
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 210, 297);
       pdf.save(pdfFileName(name));
       toast.success("Application PDF Downloaded Successfully!");
     } catch (e) { console.error(e); toast.error("Could not generate the PDF. Please try again."); }

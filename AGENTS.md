@@ -29,4 +29,4 @@ use the editor.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
 
-- Letter PDF is captured from the #letter A4 element with html2canvas-pro + jsPDF (html2canvas cannot parse oklch); print CSS isolates #letter.
+- Letter PDF is captured from the #letter A4 element with html2canvas-pro + jsPDF; wait for fonts, remove preview transforms in the capture clone, and use lossless PNG so word spacing and punctuation survive export. Print CSS isolates #letter.
